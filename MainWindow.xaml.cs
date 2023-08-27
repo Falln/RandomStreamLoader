@@ -83,7 +83,7 @@ namespace RandomStreamLoader
 
             // Start the ABD server
             var result = server.StartServer(@"C:\Program Files (x86)\Android\android-sdk\platform-tools\adb.exe", restartServerIfNewer: true);
-            Console.WriteLine(result);
+            WriteLine(result.ToString());
 
             //Add the clientID to the HttpClient
             httpClient.DefaultRequestHeaders.Add("Client-ID", clientID);
@@ -112,7 +112,9 @@ namespace RandomStreamLoader
                 selectedTV.currGame = "";
                 selectedTV.mostRecentStream = "";
                 selectedTV.lastTimeTVUpdated = System.DateTime.Now;
+                WriteLine($"{selectedTV.tvName} is now set to have No Stream");
             }
+            else
             {
                 string mostPopularStreamer = Task.Run(() => getMostPopularStreamerAsync(selectedGame)).GetAwaiter().GetResult();
                 launchTwitchOnTV(selectedTV.tvIP, $"twitch://stream/{mostPopularStreamer}");
@@ -120,6 +122,11 @@ namespace RandomStreamLoader
                 selectedTV.lastTimeTVUpdated = System.DateTime.Now;
                 selectedTV.currGame = selectedGame;
             }
+        }
+
+        public void WriteLine(string? input)
+        {
+            this.Dispatcher.BeginInvoke(new Action(() => ConsoleOutBox.Text = ConsoleOutBox.Text + "\n" + input));
         }
 
         public class TokenResponse
@@ -141,12 +148,12 @@ namespace RandomStreamLoader
 
             //Add the parameters
             var content = new FormUrlEncodedContent(values);
-            Console.WriteLine("Attempting to get Twitch token");
+            //WriteLine("Attempting to get Twitch token");
 
             //Get the response
             var response = await httpClient.PostAsync("https://id.twitch.tv/oauth2/token", content);
             string responseString = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Token Aqcuired");
+            //WriteLine("Token Aqcuired");
 
             //Deserialize the JSON and pull the token from the JSON
             var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(responseString);
@@ -157,7 +164,7 @@ namespace RandomStreamLoader
         private async Task<string> GetGameID(string gameName)
         {
             //Setup the uri for getting a game ID from Name
-            Console.WriteLine($"Getting Game ID for {gameName}");
+            WriteLine($"Getting Game ID for {gameName}");
             string twitchToken = await GetTwtichToken();
             string uri = $"https://api.twitch.tv/helix/games?name={gameName}";
 
@@ -174,12 +181,12 @@ namespace RandomStreamLoader
             //Check if we got valid data, and if we do return the game ID
             if (!gameResponse["data"].ToString().Equals("[]"))
             {
-                Console.WriteLine($"The Game ID for {gameName} is " + gameResponse["data"][0]["id"]);
+                WriteLine($"The Game ID for {gameName} is " + gameResponse["data"][0]["id"]);
                 return (string)gameResponse["data"][0]["id"];
             }
             else
             {
-                Console.WriteLine("The game " + gameName + " does not exist. Returning empty string.");
+                WriteLine("The game " + gameName + " does not exist. Returning empty string.");
                 return "";
             }
         }
@@ -188,7 +195,7 @@ namespace RandomStreamLoader
         private async Task<string> getMostPopularStreamerAsync(string desiredCategory)
         {
             //Create the uri 
-            Console.WriteLine($"\n----- Trying to get the most popular streamer in {desiredCategory} -----");
+            WriteLine($"\n----- Trying to get the most popular streamer in {desiredCategory} -----");
             string gameID = await GetGameID(desiredCategory);
             string uri = $"https://api.twitch.tv/helix/streams?game_id={gameID}&type=live";
 
@@ -214,20 +221,20 @@ namespace RandomStreamLoader
                 {
                     foreach (var stream in twitchStreamsResponse.Streams)
                     {
-                        Console.WriteLine($"Most popular streamer for {desiredCategory} is: {stream.UserName}");
+                        WriteLine($"Most popular streamer for {desiredCategory} is: {stream.UserName}");
                         // You can access other stream properties here if needed
                         return stream.UserName;
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"No live streams found for {desiredCategory}.");
+                    WriteLine($"No live streams found for {desiredCategory}.");
                     return "";
                 }
             }
             else
             {
-                Console.WriteLine($"Failed to fetch streams: {response.ReasonPhrase}");
+                WriteLine($"Failed to fetch streams: {response.ReasonPhrase}");
                 return "";
             }
             return "";
@@ -264,14 +271,14 @@ namespace RandomStreamLoader
                 while (sw.ElapsedMilliseconds < 500) { }
                 DispatcherTimer dispatcherTimer = new DispatcherTimer();
                 var reciever = new ConsoleOutputReceiver();
-                Console.WriteLine("Trying to launch twitch on IP " + tvIP);
+                WriteLine("Trying to launch twitch on IP " + tvIP);
                 adbClient.ExecuteRemoteCommand("input keyevent KEYCODE_WAKEUP", adbClient.GetDevices().First(), reciever);
                 // Format twitch://stream/NickEh30
                 adbClient.ExecuteRemoteCommand($"am start -a android.intent.action.VIEW -d {twitchUrl} tv.twitch.android.viewer", adbClient.GetDevices().First(), reciever);
-                Console.WriteLine("The TV responded:");
-                Console.WriteLine(reciever.ToString());
+                WriteLine("The TV responded:");
+                WriteLine(reciever.ToString());
                 adbClient.Disconnect(new DnsEndPoint(tvIP, 5555));
-                Console.WriteLine("Disconnected from " + tvIP + "\n");
+                WriteLine("Disconnected from " + tvIP + "\n");
             }
             catch
             {
@@ -291,14 +298,14 @@ namespace RandomStreamLoader
             {
                 adbClient.Connect(tvIP);
                 var reciever = new ConsoleOutputReceiver();
-                Console.WriteLine("Trying to launch photos on IP " + tvIP);
+                WriteLine("Trying to launch photos on IP " + tvIP);
                 adbClient.ExecuteRemoteCommand("input keyevent KEYCODE_WAKEUP", adbClient.GetDevices().First(), reciever);
                 // Format twitch://stream/NickEh30
                 adbClient.ExecuteRemoteCommand($"am start -n com.amazon.photos/.activity.MainActivity", adbClient.GetDevices().First(), reciever);
-                Console.WriteLine("The TV responded:");
-                Console.WriteLine(reciever.ToString());
+                WriteLine("The TV responded:");
+                WriteLine(reciever.ToString());
                 adbClient.Disconnect(new DnsEndPoint(tvIP, 5555));
-                Console.WriteLine("Disconnected from " + tvIP + "\n");
+                WriteLine("Disconnected from " + tvIP + "\n");
             }
             catch
             {
@@ -319,10 +326,10 @@ namespace RandomStreamLoader
 
         private void refreshTVs(object sender, EventArgs e)
         {
-            Console.WriteLine("----- Refreshing TVs -----");
+            WriteLine("----- Refreshing TVs -----");
             foreach (TV tv in tvList)
             {
-                Console.WriteLine("\nRefreshing " + tv.tvName);
+                WriteLine("\nRefreshing " + tv.tvName);
                 if (!tv.currGame.Equals(""))
                 {
                     string mostPopularStreamer = Task.Run(() => getMostPopularStreamerAsync(tv.currGame)).GetAwaiter().GetResult();
@@ -333,16 +340,16 @@ namespace RandomStreamLoader
                     }
                     else
                     {
-                        Console.WriteLine("Current stream is still live and the most popular");
+                        WriteLine("Current stream is still live and the most popular");
                     }
                 } 
                 else
                 {
-                    Console.WriteLine("No stream set");
+                    WriteLine("No stream set");
                 }
                 tv.lastTimeTVUpdated = System.DateTime.Now;
             }
-            Console.WriteLine("Time Stamp: " + System.DateTime.Now.ToString());
+            WriteLine("Time Stamp: " + System.DateTime.Now.ToString());
         }
 
         // Custom wrapper class to help keep track of TVs
@@ -365,7 +372,14 @@ namespace RandomStreamLoader
         private void TestBtn_Click(object sender, RoutedEventArgs e)
         {
             //string mostPopularStreamer = Task.Run(() => getMostPopularStreamerAsync("overwatch 2")).GetAwaiter().GetResult();
-            //Console.WriteLine("The most popular Streamer is: " + mostPopularStreamer);
+            //WriteLine("The most popular Streamer is: " + mostPopularStreamer);
+
+            //WriteLine("Testing the console output zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+        }
+
+        private void ConsoleOutBox_ScrollToEnd(object sender, TextChangedEventArgs e)
+        {
+            ConsoleOutBox.ScrollToEnd();
         }
     }
 }
