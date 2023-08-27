@@ -276,6 +276,7 @@ namespace RandomStreamLoader
             catch
             {
                 MessageBox.Show("Failed to connect to TV");
+                // Extra try-catch to make sure we don't crash the program
                 try
                 {
                     adbClient.Disconnect(new DnsEndPoint(tvIP, 5555));
