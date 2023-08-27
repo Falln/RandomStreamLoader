@@ -282,7 +282,8 @@ namespace RandomStreamLoader
             }
             catch
             {
-                MessageBox.Show("Failed to connect to TV");
+                MessageBox.Show("Failed to connect to " + tvIP);
+                WriteLine("Failed to connect to " + tvIP);
                 // Extra try-catch to make sure we don't crash the program
                 try
                 {
