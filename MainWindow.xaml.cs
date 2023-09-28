@@ -45,9 +45,9 @@ namespace RandomStreamLoader
         // Have a "refresh" button
         // 
         // IDEAS
-        // Ad TV Object that knows everything about a TV
-        // Add a no stream option
-        // Fix twich data limitaition
+        // Add a Turn off TVs button
+        // Add a manual refresh TVs button
+        // Add a way to customize the TV's IP address
 
 
         // ABD server
@@ -381,6 +381,16 @@ namespace RandomStreamLoader
         private void ConsoleOutBox_ScrollToEnd(object sender, TextChangedEventArgs e)
         {
             ConsoleOutBox.ScrollToEnd();
+        }
+
+        private void ManRefreshBtn_Click(object sender, RoutedEventArgs e)
+        {
+            refreshTVs(sender, e);
+        }
+
+        private void TVOffBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
