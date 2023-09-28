@@ -46,7 +46,7 @@ namespace RandomStreamLoader
         // 
         // IDEAS
         // Add a Turn off TVs button
-        // Add a manual refresh TVs button
+        // Add a manual refresh TVs button (Done)
         // Add a way to customize the TV's IP address
 
 
@@ -353,6 +353,39 @@ namespace RandomStreamLoader
             WriteLine("Time Stamp: " + System.DateTime.Now.ToString());
         }
 
+        private void turnOffTV(TV tv)
+        {
+            //Copied and Pasted LaunchTwitchOnTV, so have to have this lol
+            string tvIP = tv.tvIP;
+
+            try
+            {
+                adbClient.Connect(tvIP);
+                Stopwatch sw = Stopwatch.StartNew();
+                while (sw.ElapsedMilliseconds < 500) { }
+                DispatcherTimer dispatcherTimer = new DispatcherTimer();
+                var reciever = new ConsoleOutputReceiver();
+                WriteLine("Turning off " + tv.tvName + " at IP " + tvIP);
+                adbClient.ExecuteRemoteCommand("input keyevent KEYCODE_POWER", adbClient.GetDevices().First(), reciever);
+                // Format twitch://stream/NickEh30
+                WriteLine("The TV responded:");
+                WriteLine(reciever.ToString());
+                adbClient.Disconnect(new DnsEndPoint(tvIP, 5555));
+                WriteLine("Disconnected from " + tvIP + "\n");
+            }
+            catch
+            {
+                //MessageBox.Show("Failed to connect to " + tvIP);
+                WriteLine("Failed to connect to " + tvIP + "\n");
+                // Extra try-catch to make sure we don't crash the program
+                try
+                {
+                    adbClient.Disconnect(new DnsEndPoint(tvIP, 5555));
+                }
+                catch { }
+            }
+        }
+
         // Custom wrapper class to help keep track of TVs
         public class TV
         {
@@ -390,7 +423,11 @@ namespace RandomStreamLoader
 
         private void TVOffBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            WriteLine("\n----- Turning Off All TVs -----");
+            foreach (TV tv in tvList)
+            {
+                turnOffTV(tv);
+            }
         }
     }
 }
