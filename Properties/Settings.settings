@@ -2,43 +2,43 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="RandomStreamLoader.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="FrontLobbyTV" Type="System.String" Scope="Application">
+    <Setting Name="FrontLobbyTV" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.94</Value>
     </Setting>
-    <Setting Name="MiddleVIPTV" Type="System.String" Scope="Application">
+    <Setting Name="MiddleVIPTV" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.205</Value>
     </Setting>
-    <Setting Name="RightVIPTV" Type="System.String" Scope="Application">
+    <Setting Name="RightVIPTV" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.199</Value>
     </Setting>
-    <Setting Name="LeftVIPTV" Type="System.String" Scope="Application">
+    <Setting Name="LeftVIPTV" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.7</Value>
     </Setting>
-    <Setting Name="FrontDesk1TV" Type="System.String" Scope="Application">
+    <Setting Name="FrontDesk1TV" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.194</Value>
     </Setting>
-    <Setting Name="LoungeTV1" Type="System.String" Scope="Application">
+    <Setting Name="LoungeTV1" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.202</Value>
     </Setting>
-    <Setting Name="LoungeTV2" Type="System.String" Scope="Application">
+    <Setting Name="LoungeTV2" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.207</Value>
     </Setting>
-    <Setting Name="GameRoom1" Type="System.String" Scope="Application">
+    <Setting Name="GameRoom1" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.252</Value>
     </Setting>
-    <Setting Name="GameRoom2" Type="System.String" Scope="Application">
+    <Setting Name="GameRoom2" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.66</Value>
     </Setting>
-    <Setting Name="GameRoom3" Type="System.String" Scope="Application">
+    <Setting Name="GameRoom3" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.64</Value>
     </Setting>
-    <Setting Name="GameRoom4" Type="System.String" Scope="Application">
+    <Setting Name="GameRoom4" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.246</Value>
     </Setting>
-    <Setting Name="PartyRoomA" Type="System.String" Scope="Application">
+    <Setting Name="PartyRoomA" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.43</Value>
     </Setting>
-    <Setting Name="PartyRoomB" Type="System.String" Scope="Application">
+    <Setting Name="PartyRoomB" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.241</Value>
     </Setting>
   </Settings>

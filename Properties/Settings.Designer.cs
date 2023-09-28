@@ -23,120 +23,159 @@ namespace RandomStreamLoader.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.94")]
         public string FrontLobbyTV {
             get {
                 return ((string)(this["FrontLobbyTV"]));
             }
+            set {
+                this["FrontLobbyTV"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.205")]
         public string MiddleVIPTV {
             get {
                 return ((string)(this["MiddleVIPTV"]));
             }
+            set {
+                this["MiddleVIPTV"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.199")]
         public string RightVIPTV {
             get {
                 return ((string)(this["RightVIPTV"]));
             }
+            set {
+                this["RightVIPTV"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.7")]
         public string LeftVIPTV {
             get {
                 return ((string)(this["LeftVIPTV"]));
             }
+            set {
+                this["LeftVIPTV"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.194")]
         public string FrontDesk1TV {
             get {
                 return ((string)(this["FrontDesk1TV"]));
             }
+            set {
+                this["FrontDesk1TV"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.202")]
         public string LoungeTV1 {
             get {
                 return ((string)(this["LoungeTV1"]));
             }
+            set {
+                this["LoungeTV1"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.207")]
         public string LoungeTV2 {
             get {
                 return ((string)(this["LoungeTV2"]));
             }
+            set {
+                this["LoungeTV2"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.252")]
         public string GameRoom1 {
             get {
                 return ((string)(this["GameRoom1"]));
             }
+            set {
+                this["GameRoom1"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.66")]
         public string GameRoom2 {
             get {
                 return ((string)(this["GameRoom2"]));
             }
+            set {
+                this["GameRoom2"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.64")]
         public string GameRoom3 {
             get {
                 return ((string)(this["GameRoom3"]));
             }
+            set {
+                this["GameRoom3"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.246")]
         public string GameRoom4 {
             get {
                 return ((string)(this["GameRoom4"]));
             }
+            set {
+                this["GameRoom4"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.43")]
         public string PartyRoomA {
             get {
                 return ((string)(this["PartyRoomA"]));
             }
+            set {
+                this["PartyRoomA"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.241")]
         public string PartyRoomB {
             get {
                 return ((string)(this["PartyRoomB"]));
+            }
+            set {
+                this["PartyRoomB"] = value;
             }
         }
     }

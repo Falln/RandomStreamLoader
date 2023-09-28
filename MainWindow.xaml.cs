@@ -29,6 +29,26 @@ using System.Windows.Threading;
 
 namespace RandomStreamLoader
 {
+
+    // Custom wrapper class to help keep track of TVs
+    public class TV
+    {
+        public string tvName { get; set; }
+        public string tvIP { get; set; }
+        public string mostRecentStream { get; set; }
+        public string currGame { get; set; }
+        public DateTime lastTimeTVUpdated { get; set; }
+
+        public TV(string tvName, string tvIP)
+        {
+            this.tvName = tvName;
+            this.tvIP = tvIP;
+            this.currGame = "";
+        }
+    }
+
+
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -66,20 +86,19 @@ namespace RandomStreamLoader
             InitializeComponent();
 
             // Add the inital TVs
-            addTV("Front Lobby TV", "172.16.15.94");
-            addTV("Middle VIP TV", "172.16.15.205");
-            addTV("Right VIP TV", "172.16.15.199");
-            addTV("Left VIP TV", "172.16.15.7");
-            addTV("Front Desk 1 TV", "172.16.15.194");
-            addTV("Lounge TV 1", "172.16.15.202");
-            addTV("Lounge TV 2", "172.16.15.207");
-            addTV("Game Room 1", "172.16.15.252");
-            addTV("Game Room 2", "172.16.15.66");
-            addTV("Game Room 3", "172.16.15.64");
-            addTV("Game Room 4", "172.16.15.246");
-            addTV("Party Room A", "172.16.15.43");
-            addTV("Party Room B", "172.16.15.241");
-            
+            addTV("Front Lobby TV", Properties.Settings.Default.FrontLobbyTV);
+            addTV("Middle VIP TV", Properties.Settings.Default.MiddleVIPTV);
+            addTV("Right VIP TV", Properties.Settings.Default.RightVIPTV);
+            addTV("Left VIP TV", Properties.Settings.Default.LeftVIPTV);
+            addTV("Front Desk 1 TV", Properties.Settings.Default.FrontDesk1TV);
+            addTV("Lounge TV 1", Properties.Settings.Default.LoungeTV1);
+            addTV("Lounge TV 2", Properties.Settings.Default.LoungeTV2);
+            addTV("Game Room 1", Properties.Settings.Default.GameRoom1);
+            addTV("Game Room 2", Properties.Settings.Default.GameRoom2);
+            addTV("Game Room 3", Properties.Settings.Default.GameRoom3);
+            addTV("Game Room 4", Properties.Settings.Default.GameRoom4);
+            addTV("Party Room A", Properties.Settings.Default.PartyRoomA);
+            addTV("Party Room B", Properties.Settings.Default.PartyRoomB);  
 
             // Start the ABD server
             var result = server.StartServer(@"C:\Program Files (x86)\Android\android-sdk\platform-tools\adb.exe", restartServerIfNewer: true);
@@ -386,23 +405,6 @@ namespace RandomStreamLoader
             }
         }
 
-        // Custom wrapper class to help keep track of TVs
-        public class TV
-        {
-            public string tvName { get; set; }
-            public string tvIP { get; set; }
-            public string mostRecentStream { get; set; }
-            public string currGame { get; set; }
-            public DateTime lastTimeTVUpdated { get; set; }
-
-            public TV(string tvName, string tvIP)
-            {
-                this.tvName = tvName;
-                this.tvIP = tvIP;
-                this.currGame = "";
-            }
-        }
-
         private void TestBtn_Click(object sender, RoutedEventArgs e)
         {
             //string mostPopularStreamer = Task.Run(() => getMostPopularStreamerAsync("overwatch 2")).GetAwaiter().GetResult();
@@ -428,6 +430,13 @@ namespace RandomStreamLoader
             {
                 turnOffTV(tv);
             }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Window editIPWindow = new EditIPWindow(tvList);
+            editIPWindow.Owner = this;
+            editIPWindow.ShowDialog();
         }
     }
 }
