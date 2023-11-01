@@ -372,6 +372,34 @@ namespace RandomStreamLoader
             WriteLine("Time Stamp: " + System.DateTime.Now.ToString());
         }
 
+        private void refreshTVs(object sender, EventArgs e, bool forceRefresh)
+        {
+            WriteLine("----- Refreshing TVs -----");
+            foreach (TV tv in tvList)
+            {
+                WriteLine("\nRefreshing " + tv.tvName);
+                if (!tv.currGame.Equals(""))
+                {
+                    string mostPopularStreamer = Task.Run(() => getMostPopularStreamerAsync(tv.currGame)).GetAwaiter().GetResult();
+                    if (!mostPopularStreamer.Equals(tv.mostRecentStream) || forceRefresh)
+                    {
+                        launchTwitchOnTV(tv.tvIP, $"twitch://stream/{mostPopularStreamer}");
+                        tv.mostRecentStream = mostPopularStreamer;
+                    }
+                    else
+                    {
+                        WriteLine("Current stream is still live and the most popular");
+                    }
+                }
+                else
+                {
+                    WriteLine("No stream set");
+                }
+                tv.lastTimeTVUpdated = System.DateTime.Now;
+            }
+            WriteLine("Time Stamp: " + System.DateTime.Now.ToString());
+        }
+
         private void turnOffTV(TV tv)
         {
             //Copied and Pasted LaunchTwitchOnTV, so have to have this lol
@@ -381,7 +409,7 @@ namespace RandomStreamLoader
             {
                 adbClient.Connect(tvIP);
                 Stopwatch sw = Stopwatch.StartNew();
-                while (sw.ElapsedMilliseconds < 500) { }
+                while (sw.ElapsedMilliseconds < 1000) { }
                 DispatcherTimer dispatcherTimer = new DispatcherTimer();
                 var reciever = new ConsoleOutputReceiver();
                 WriteLine("Turning off " + tv.tvName + " at IP " + tvIP);
@@ -420,7 +448,7 @@ namespace RandomStreamLoader
 
         private void ManRefreshBtn_Click(object sender, RoutedEventArgs e)
         {
-            refreshTVs(sender, e);
+            refreshTVs(sender, e, true);
         }
 
         private void TVOffBtn_Click(object sender, RoutedEventArgs e)
@@ -429,7 +457,11 @@ namespace RandomStreamLoader
             foreach (TV tv in tvList)
             {
                 turnOffTV(tv);
+                tv.mostRecentStream = "";
+                tv.currGame = "";
+                tv.lastTimeTVUpdated = System.DateTime.Now;
             }
+
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)

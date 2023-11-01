@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:RandomStreamLoader"
         mc:Ignorable="d"
         Title="StreamLoader" Height="260" Width="480">
@@ -26,6 +27,13 @@
             </MenuItem>
             <MenuItem Header="_About">
                 <MenuItem Header="If U dont know then L + Ratio"/>
+            </MenuItem>
+            <MenuItem>
+                <MenuItem.Header>
+                    <fa:ImageAwesome Icon="CheckCircle" Foreground="Green" Visibility="Visible" 
+                                     Height="10" Width="10" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                </MenuItem.Header>
+                <MenuItem Header="Refresh Acitve"/>
             </MenuItem>
         </Menu>
 
@@ -60,7 +68,6 @@
             <Button x:Name="TVOffBtn" Click="TVOffBtn_Click"  Content="Turn TVs Off" 
                     Width="75" Height="18" Margin="3"/>
         </StackPanel>
-
         <!--<Button x:Name="TestBtn" Visibility="Hidden" Click="TestBtn_Click"  Content="Apply" Grid.Column="3" Grid.RowSpan="1"/>-->
 
         <!-- Console output textbox-->
