@@ -65,9 +65,8 @@ namespace RandomStreamLoader
         // Have a "refresh" button
         // 
         // IDEAS
-        // Add a Turn off TVs button
-        // Add a manual refresh TVs button (Done)
-        // Add a way to customize the TV's IP address
+        // Have a way to disable the refresh and adjust the timer (indicated by red and green refresh logo)
+        // 
 
 
         // ABD server
@@ -136,7 +135,7 @@ namespace RandomStreamLoader
             else
             {
                 string mostPopularStreamer = Task.Run(() => getMostPopularStreamerAsync(selectedGame)).GetAwaiter().GetResult();
-                launchTwitchOnTV(selectedTV.tvIP, $"twitch://stream/{mostPopularStreamer}");
+                launchTwitchOnTV(selectedTV, $"twitch://stream/{mostPopularStreamer}");
                 selectedTV.mostRecentStream = mostPopularStreamer;
                 selectedTV.lastTimeTVUpdated = System.DateTime.Now;
                 selectedTV.currGame = selectedGame;
@@ -240,9 +239,14 @@ namespace RandomStreamLoader
                 {
                     foreach (var stream in twitchStreamsResponse.Streams)
                     {
-                        WriteLine($"Most popular streamer for {desiredCategory} is: {stream.UserName}");
-                        // You can access other stream properties here if needed
-                        return stream.UserName;
+                        //You can access other stream properties here if needed. The streams should loop highest view count to lowest
+                        //NOTE: bc this gets UserLogin names (what the url needs) names reported by RSL may not line up with display names on the TVs
+                        //Only allow english streams
+                        if (stream.Language == "en")
+                        {
+                            WriteLine($"Most popular english streamer for {desiredCategory} is: {stream.UserLogin}");
+                            return stream.UserLogin;
+                        }
                     }
                 }
                 else
@@ -275,38 +279,40 @@ namespace RandomStreamLoader
         {
             [JsonProperty("user_name")]
             public string UserName { get; set; }
-
+            [JsonProperty("user_login")]
+            public string UserLogin { get; set; }
+            [JsonProperty("language")]
+            public string Language { get; set; }
             [JsonProperty("viewer_count")]
             public int ViewerCount { get; set; }
         }
 
 
-        private void launchTwitchOnTV(string tvIP, string twitchUrl)
+        private void launchTwitchOnTV(TV tv, string twitchUrl)
         {
             try
             {
-                adbClient.Connect(tvIP);
+                adbClient.Connect(tv.tvIP);
                 Stopwatch sw = Stopwatch.StartNew();
                 while (sw.ElapsedMilliseconds < 500) { }
                 DispatcherTimer dispatcherTimer = new DispatcherTimer();
                 var reciever = new ConsoleOutputReceiver();
-                WriteLine("Trying to launch twitch on IP " + tvIP);
+                WriteLine("Trying to launch twitch on IP " + tv.tvName);
                 adbClient.ExecuteRemoteCommand("input keyevent KEYCODE_WAKEUP", adbClient.GetDevices().First(), reciever);
                 // Format twitch://stream/NickEh30
                 adbClient.ExecuteRemoteCommand($"am start -a android.intent.action.VIEW -d {twitchUrl} tv.twitch.android.viewer", adbClient.GetDevices().First(), reciever);
                 WriteLine("The TV responded:");
                 WriteLine(reciever.ToString());
-                adbClient.Disconnect(new DnsEndPoint(tvIP, 5555));
-                WriteLine("Disconnected from " + tvIP + "\n");
+                adbClient.Disconnect(new DnsEndPoint(tv.tvIP, 5555));
+                WriteLine("Disconnected from " + tv.tvName + "\n");
             }
             catch
             {
-                MessageBox.Show("Failed to connect to " + tvIP);
-                WriteLine("Failed to connect to " + tvIP);
+                WriteLine("Failed to connect to " + tv.tvName);
                 // Extra try-catch to make sure we don't crash the program
                 try
                 {
-                    adbClient.Disconnect(new DnsEndPoint(tvIP, 5555));
+                    adbClient.Disconnect(new DnsEndPoint(tv.tvIP, 5555));
                 }
                 catch { }
             }
@@ -355,7 +361,7 @@ namespace RandomStreamLoader
                     string mostPopularStreamer = Task.Run(() => getMostPopularStreamerAsync(tv.currGame)).GetAwaiter().GetResult();
                     if (!mostPopularStreamer.Equals(tv.mostRecentStream))
                     {
-                        launchTwitchOnTV(tv.tvIP, $"twitch://stream/{mostPopularStreamer}");
+                        launchTwitchOnTV(tv, $"twitch://stream/{mostPopularStreamer}");
                         tv.mostRecentStream = mostPopularStreamer;
                     }
                     else
@@ -383,7 +389,7 @@ namespace RandomStreamLoader
                     string mostPopularStreamer = Task.Run(() => getMostPopularStreamerAsync(tv.currGame)).GetAwaiter().GetResult();
                     if (!mostPopularStreamer.Equals(tv.mostRecentStream) || forceRefresh)
                     {
-                        launchTwitchOnTV(tv.tvIP, $"twitch://stream/{mostPopularStreamer}");
+                        launchTwitchOnTV(tv, $"twitch://stream/{mostPopularStreamer}");
                         tv.mostRecentStream = mostPopularStreamer;
                     }
                     else
@@ -413,17 +419,17 @@ namespace RandomStreamLoader
                 DispatcherTimer dispatcherTimer = new DispatcherTimer();
                 var reciever = new ConsoleOutputReceiver();
                 WriteLine("Turning off " + tv.tvName + " at IP " + tvIP);
-                adbClient.ExecuteRemoteCommand("input keyevent KEYCODE_POWER", adbClient.GetDevices().First(), reciever);
+                adbClient.ExecuteRemoteCommand("input keyevent KEYCODE_SLEEP", adbClient.GetDevices().First(), reciever);
                 // Format twitch://stream/NickEh30
                 WriteLine("The TV responded:");
                 WriteLine(reciever.ToString());
                 adbClient.Disconnect(new DnsEndPoint(tvIP, 5555));
-                WriteLine("Disconnected from " + tvIP + "\n");
+                WriteLine("Disconnected from " + tv.tvName + "\n");
             }
             catch
             {
                 //MessageBox.Show("Failed to connect to " + tvIP);
-                WriteLine("Failed to connect to " + tvIP + "\n");
+                WriteLine("Failed to connect to " + tv.tvName + "\n");
                 // Extra try-catch to make sure we don't crash the program
                 try
                 {

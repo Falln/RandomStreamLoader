@@ -25,7 +25,7 @@ namespace RandomStreamLoader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.94")]
+        [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.107")]
         public string FrontLobbyTV {
             get {
                 return ((string)(this["FrontLobbyTV"]));
@@ -97,7 +97,7 @@ namespace RandomStreamLoader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.207")]
+        [global::System.Configuration.DefaultSettingValueAttribute("172.16.15.193")]
         public string LoungeTV2 {
             get {
                 return ((string)(this["LoungeTV2"]));

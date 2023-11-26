@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="FrontLobbyTV" Type="System.String" Scope="User">
-      <Value Profile="(Default)">172.16.15.94</Value>
+      <Value Profile="(Default)">172.16.15.107</Value>
     </Setting>
     <Setting Name="MiddleVIPTV" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.205</Value>
@@ -21,7 +21,7 @@
       <Value Profile="(Default)">172.16.15.202</Value>
     </Setting>
     <Setting Name="LoungeTV2" Type="System.String" Scope="User">
-      <Value Profile="(Default)">172.16.15.207</Value>
+      <Value Profile="(Default)">172.16.15.193</Value>
     </Setting>
     <Setting Name="GameRoom1" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.16.15.252</Value>
