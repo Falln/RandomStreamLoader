@@ -66,7 +66,10 @@ namespace RandomStreamLoader
         // 
         // IDEAS
         // Have a way to disable the refresh and adjust the timer (indicated by red and green refresh logo)
-        // 
+        // Make it so that you cant enter an invalid IP
+        // Change UI to MaterialDesign (?)
+        // Add a way to filter tags
+        // Have some way to print out all stored info (ips, current games, streams, etc)
 
 
         // ABD server
@@ -77,6 +80,9 @@ namespace RandomStreamLoader
         string clientSecret = "zx55ojox0omv462rk5geujywe7kxvm";
         private static readonly HttpClient httpClient = new HttpClient();
         List<TV> tvList = new List<TV>();
+
+        // Banned tagg list 
+        string[] bannedTags = new string[10] { "booba", "furry", "Furry", "pngTuber", "PNGTuber", "Vtuber", "VTuber", "bikini", "vtuber", "twerk" };
 
 
         public MainWindow()
@@ -222,7 +228,7 @@ namespace RandomStreamLoader
             httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {twitchToken}");
 
             //Send out the request
-            var response = await httpClient.GetAsync(uri);
+            var response = await httpClient.GetAsync(uri);  
             string responseString = await response.Content.ReadAsStringAsync();
 
             //Remove the Twtich Token
@@ -242,7 +248,7 @@ namespace RandomStreamLoader
                         //You can access other stream properties here if needed. The streams should loop highest view count to lowest
                         //NOTE: bc this gets UserLogin names (what the url needs) names reported by RSL may not line up with display names on the TVs
                         //Only allow english streams
-                        if (stream.Language == "en")
+                        if (checkIfValidStream(stream))
                         {
                             WriteLine($"Most popular english streamer for {desiredCategory} is: {stream.UserLogin}");
                             return stream.UserLogin;
@@ -261,6 +267,26 @@ namespace RandomStreamLoader
                 return "";
             }
             return "";
+        }
+
+        // Check if the stream is english and if it has any banned tags
+        // true = valid stream, false = invalid stream
+        public bool checkIfValidStream(Stream stream)
+        {
+            if (stream.Language.Equals("en"))
+            {
+                //For each tag the stream has, check if the banned tags  list has it, if not
+                //the the stream is good and return true
+                foreach (string tag in stream.Tags)
+                {
+                    if (bannedTags.Contains(tag))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
         }
 
         public class GameID
@@ -285,6 +311,8 @@ namespace RandomStreamLoader
             public string Language { get; set; }
             [JsonProperty("viewer_count")]
             public int ViewerCount { get; set; }
+            [JsonProperty("tags")]
+            public string[] Tags { get; set; }
         }
 
 
